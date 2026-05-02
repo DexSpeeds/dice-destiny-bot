@@ -390,12 +390,8 @@ async def on_ready():
             for cmd in all_cmds:
                 print(f"  /{cmd.name}")
 
-            # Clear global commands to prevent duplicates
-            bot.tree.clear_commands(guild=None)
-            await bot.tree.sync()
-            # Only sync to guilds
+            # Sync to each guild for instant availability
             for guild in bot.guilds:
-                bot.tree.clear_commands(guild=guild)
                 bot.tree.copy_global_to(guild=guild)
                 guild_synced = await bot.tree.sync(guild=guild)
                 print(f"Synced {len(guild_synced)} commands to {guild.name}")
