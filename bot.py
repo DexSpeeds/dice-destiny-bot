@@ -24,6 +24,7 @@ from community_roulette import CommunityRoulette, CommunityBetView, setup_commun
 from referral_system import ReferralSystem, REFERRAL_BONUS
 from rates_system import fetch_osrs_price, calculate_rates, render_rates
 from settings_panel import SettingsView, build_settings_embed
+from backup_system import create_local_backup, push_to_github
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -374,6 +375,9 @@ async def on_ready():
     if not house_stats_refresh.is_running():
         house_stats_refresh.start()
 
+    if not auto_backup.is_running():
+        auto_backup.start()
+
     # Lock Dice & Destiny category - only bot can post, players use commands only
     try:
         dd_category = bot.get_channel(1499139727201271984)
@@ -424,6 +428,35 @@ async def on_ready():
 
 
 # ============================================================
+# ============================================================
+# AUTO BACKUP
+# ============================================================
+
+@tasks.loop(minutes=10)
+async def auto_backup():
+    """Auto-backup data every 10 minutes"""
+    if not bot.is_ready():
+        return
+    try:
+        create_local_backup()
+        await push_to_github()
+    except Exception as e:
+        print(f"Auto backup error: {e}")
+
+
+@bot.tree.command(name="backup", description="Force a backup now")
+async def backup_cmd(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    await interaction.response.defer(ephemeral=True)
+    create_local_backup()
+    success = await push_to_github()
+    if success:
+        await interaction.followup.send("Backup pushed to GitHub!", ephemeral=True)
+    else:
+        await interaction.followup.send("Local backup created. GitHub push may have failed.", ephemeral=True)
+
+
 # ============================================================
 # SETTINGS PANEL
 # ============================================================

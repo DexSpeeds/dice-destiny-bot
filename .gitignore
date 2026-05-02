@@ -6,11 +6,6 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Data files (will be on Railway persistent storage)
-player_stats.json
-lottery_data.json
-game_history.json
-
 # Temp files
 *.log
 assets/test_*
