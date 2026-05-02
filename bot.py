@@ -801,6 +801,34 @@ async def addbalance(interaction: discord.Interaction, user: discord.Member, amo
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
+@bot.tree.command(name="removebalance")
+@app_commands.describe(user="User", amount="Amount to remove (e.g. 100k, 1m, 1b)")
+async def removebalance(interaction: discord.Interaction, user: discord.Member, amount: str):
+    if not await permissions.check_admin_permission(interaction):
+        return
+
+    parsed = parse_bet(amount)
+    if parsed <= 0:
+        await interaction.response.send_message(f"Invalid amount: `{amount}`", ephemeral=True)
+        return
+
+    bal = wallet.get_balance(user.id)
+    if parsed > bal:
+        await interaction.response.send_message(
+            f"User only has {bal:,} GP! Can't remove {parsed:,} GP.",
+            ephemeral=True
+        )
+        return
+
+    wallet.remove_balance(user.id, parsed)
+
+    embed = discord.Embed(title="Balance Removed", color=COLOR_LOSS)
+    embed.add_field(name="User", value=user.mention)
+    embed.add_field(name="Removed", value=f"{parsed:,} GP")
+    embed.add_field(name="New Balance", value=f"{wallet.get_balance(user.id):,} GP")
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
 @bot.tree.command(name="balance")
 async def balance(interaction: discord.Interaction):
     bal = wallet.get_balance(interaction.user.id)
