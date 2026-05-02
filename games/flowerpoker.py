@@ -116,7 +116,18 @@ class FlowerPoker:
             elif host_rank > player_rank:
                 winner = 'host'
             else:
-                winner = 'draw'
+                # Same hand rank - tiebreak by highest flower count
+                # Count most common flower per hand
+                p_max = max(player_flowers.count(f) for f in set(player_flowers))
+                h_max = max(host_flowers.count(f) for f in set(host_flowers))
+                if p_max > h_max:
+                    winner = 'player'
+                elif h_max > p_max:
+                    winner = 'host'
+                else:
+                    # Still tied - random coin flip decides
+                    tiebreak, _ = session.play(2)
+                    winner = 'player' if tiebreak == 0 else 'host'
 
         # Determine win based on bet type
         if bet_type == 'draw':
