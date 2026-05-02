@@ -786,8 +786,11 @@ async def setup(interaction: discord.Interaction):
         except Exception as e:
             print(f"Setup error {ch_name}: {e}")
 
-    with open('config.json', 'w') as f:
-        json.dump(config, f, indent=2)
+    try:
+        with open('config.json', 'w') as f:
+            json.dump(config, f, indent=2)
+    except Exception:
+        pass  # On Railway, config.json may not be writable
 
     await interaction.followup.send(f"Done! Created {created} channels. All games ready via /commands.", ephemeral=True)
 

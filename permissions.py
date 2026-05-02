@@ -3,8 +3,10 @@ Permission System - Owner + Cashier for admin, everyone can play
 """
 import discord
 import json
+import os
 
-with open('config.json', 'r') as f:
+_config_path = 'config.json' if os.path.exists('config.json') else 'config.example.json'
+with open(_config_path, 'r') as f:
     _config = json.load(f)
 
 OWNER_IDS = _config['staff']['owner_ids']
