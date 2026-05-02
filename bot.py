@@ -21,6 +21,7 @@ from game_history import GameHistory
 from lottery_renderer import render_ticket, render_lottery_background, render_lottery_winners
 from leaderboard_renderer import render_leaderboard
 from community_roulette import CommunityRoulette, CommunityBetView, setup_community_table, spin_community_roulette, update_community_table, set_community_ref
+from referral_system import ReferralSystem, REFERRAL_BONUS
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -52,6 +53,7 @@ board_manager = BoardManager(bot)
 history = GameHistory()
 game_logger = None
 community_roulette = None
+referrals = ReferralSystem()
 
 
 def parse_bet(bet_string):
@@ -345,8 +347,9 @@ async def on_ready():
         community_roulette = CommunityRoulette(bot, config, wallet, wager_tracker, stats, history, game_logger)
         set_community_ref(community_roulette)
 
-    # Register persistent community roulette view
+    # Register persistent views
     bot.add_view(CommunityBetView())
+    bot.add_view(ReferralClaimView())
 
     if not community_roulette_check.is_running():
         community_roulette_check.start()
@@ -394,6 +397,140 @@ async def on_ready():
     print("Admin: /addbalance /setup /leaderboard")
     print("User:  /balance /stats /withdraw")
     print("=" * 60)
+
+
+# ============================================================
+# ============================================================
+# REFERRAL SYSTEM
+# ============================================================
+
+class ReferralClaimView(discord.ui.View):
+    """Persistent claim button in referral channel"""
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.button(label="Claim Referral Code", style=discord.ButtonStyle.success,
+                       emoji="🎁", custom_id="referral_claim")
+    async def claim(self, interaction, button):
+        # Check if already referred
+        if referrals.get_referrer(interaction.user.id):
+            await interaction.response.send_message("You already claimed a referral code!", ephemeral=True)
+            return
+        await interaction.response.send_modal(ReferralClaimModal())
+
+
+class ReferralClaimModal(discord.ui.Modal, title="Enter Referral Code"):
+    def __init__(self):
+        super().__init__()
+        self.code_input = discord.ui.TextInput(
+            label="Referral Code", placeholder="e.g. dex", required=True, max_length=30
+        )
+        self.add_item(self.code_input)
+
+    async def on_submit(self, interaction):
+        code = self.code_input.value
+        success, msg, referrer_id = referrals.claim_code(code, interaction.user.id)
+
+        if not success:
+            await interaction.response.send_message(msg, ephemeral=True)
+            return
+
+        # Give bonus GP
+        wallet.add_balance(interaction.user.id, REFERRAL_BONUS)
+
+        await interaction.response.send_message(
+            f"🎁 {msg}\n**{REFERRAL_BONUS:,} GP** added to your balance!",
+            ephemeral=True
+        )
+
+        # DM the referrer
+        try:
+            referrer = await interaction.client.fetch_user(referrer_id)
+            await referrer.send(
+                f"🎉 **{interaction.user.name}** used your referral code! "
+                f"You'll earn 10% of house edge on all their bets."
+            )
+        except Exception:
+            pass
+
+
+@bot.tree.command(name="makecode", description="Create a referral code for a user")
+@app_commands.describe(code="The referral code name")
+async def makecode(interaction: discord.Interaction, code: str):
+    if not await permissions.check_admin_permission(interaction):
+        return
+
+    success, msg = referrals.create_code(code, interaction.user.id)
+    await interaction.response.send_message(msg, ephemeral=True)
+
+
+@bot.tree.command(name="makecodefor", description="Create a referral code for another user")
+@app_commands.describe(user="The user who owns the code", code="The referral code name")
+async def makecodefor(interaction: discord.Interaction, user: discord.Member, code: str):
+    if not await permissions.check_admin_permission(interaction):
+        return
+
+    success, msg = referrals.create_code(code, user.id)
+    if success:
+        await interaction.response.send_message(f"Code **{code}** created for {user.mention}!", ephemeral=True)
+    else:
+        await interaction.response.send_message(msg, ephemeral=True)
+
+
+@bot.tree.command(name="refstats", description="View referral stats")
+async def refstats(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+
+    codes = referrals.get_all_codes()
+    if not codes:
+        await interaction.response.send_message("No referral codes yet.", ephemeral=True)
+        return
+
+    embed = discord.Embed(title="🎁 Referral Stats", color=COLOR_GOLD)
+    for c in codes:
+        try:
+            u = await bot.fetch_user(c['owner_id'])
+            name = u.name
+        except Exception:
+            name = f"User {c['owner_id']}"
+        embed.add_field(
+            name=f"Code: {c['code']}",
+            value=f"Owner: **{name}**\nUsed: {c['used_count']}x\nEarned: {c['total_earned']:,} GP",
+            inline=True
+        )
+
+    await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
+@bot.tree.command(name="openreferrals", description="Setup the referral channel with claim button")
+async def openreferrals(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    await interaction.response.defer(ephemeral=True)
+
+    channel = interaction.channel
+
+    # Clear old messages
+    async for msg in channel.history(limit=20):
+        if msg.author == bot.user:
+            try:
+                await msg.delete()
+            except Exception:
+                pass
+
+    # Post referral image with claim button
+    import os
+    img_path = os.path.join(os.path.dirname(__file__), 'assets', 'referral.png')
+    file = discord.File(img_path, filename="referral.png")
+
+    embed = discord.Embed(color=COLOR_GOLD)
+    embed.set_image(url="attachment://referral.png")
+
+    view = ReferralClaimView()
+    await channel.send(embed=embed, file=file, view=view)
+
+    await interaction.followup.send("Referral channel setup!", ephemeral=True)
 
 
 # ============================================================

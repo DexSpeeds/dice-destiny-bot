@@ -177,6 +177,30 @@ class GameCommands(commands.Cog):
         self.wallet.remove_balance(user_id, amount)
         self.wager_tracker.record_wager(user_id, amount)
 
+        # Referral earnings - 10% of house edge to referrer
+        try:
+            from referral_system import ReferralSystem
+            import json, os
+            ref_file = 'referral_data.json'
+            if os.path.exists(ref_file):
+                with open(ref_file, 'r') as f:
+                    ref_data = json.load(f)
+                referrer_id = ref_data.get('referred_by', {}).get(str(user_id))
+                if referrer_id:
+                    house_edge = int(amount * 0.05)
+                    bonus = int(house_edge * 0.10)
+                    if bonus > 0:
+                        self.wallet.add_balance(referrer_id, bonus)
+                        # Update earnings
+                        earnings = ref_data.get('earnings', {})
+                        key = str(referrer_id)
+                        earnings[key] = earnings.get(key, 0) + bonus
+                        ref_data['earnings'] = earnings
+                        with open(ref_file, 'w') as f:
+                            json.dump(ref_data, f, indent=2)
+        except Exception:
+            pass
+
     # ==================== COINFLIP ====================
     @app_commands.command(name="coinflip", description="Flip a coin - heads or tails!")
     @app_commands.describe(choice="Heads or Tails", bet="Bet amount (e.g. 100k, 1m)")
