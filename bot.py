@@ -829,6 +829,54 @@ async def removebalance(interaction: discord.Interaction, user: discord.Member, 
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
+@bot.tree.command(name="tip", description="Tip GP to another player")
+@app_commands.describe(user="Who to tip", amount="Amount (e.g. 100k, 1m)")
+async def tip(interaction: discord.Interaction, user: discord.Member, amount: str):
+    if user.id == interaction.user.id:
+        await interaction.response.send_message("You can't tip yourself!", ephemeral=True)
+        return
+    if user.bot:
+        await interaction.response.send_message("You can't tip a bot!", ephemeral=True)
+        return
+
+    parsed = parse_bet(amount)
+    if parsed <= 0:
+        await interaction.response.send_message(f"Invalid amount: `{amount}`", ephemeral=True)
+        return
+
+    bal = wallet.get_balance(interaction.user.id)
+    if parsed > bal:
+        await interaction.response.send_message(
+            f"Insufficient balance! Have: {bal:,} GP", ephemeral=True
+        )
+        return
+
+    # Check wager requirement - can only tip what you've earned
+    progress = wager_tracker.get_wager_progress(interaction.user.id)
+    remaining_wager = progress['remaining']
+
+    if remaining_wager > 0:
+        # You have unwagered deposit - limit tip to (balance - remaining wager)
+        max_tippable = max(0, bal - remaining_wager)
+        if parsed > max_tippable:
+            await interaction.response.send_message(
+                f"You still need to wager **{remaining_wager:,} GP** before you can tip that much!\n"
+                f"Max you can tip right now: **{max_tippable:,} GP**\n"
+                f"Wager progress: {progress['completed']:,} / {progress['required']:,} GP ({progress['percentage']:.0f}%)",
+                ephemeral=True
+            )
+            return
+
+    wallet.remove_balance(interaction.user.id, parsed)
+    wallet.add_balance(user.id, parsed)
+
+    embed = discord.Embed(title="💸 Tip Sent!", color=COLOR_GOLD)
+    embed.add_field(name="From", value=interaction.user.mention, inline=True)
+    embed.add_field(name="To", value=user.mention, inline=True)
+    embed.add_field(name="Amount", value=f"**{parsed:,} GP**", inline=True)
+    await interaction.response.send_message(embed=embed)
+
+
 @bot.tree.command(name="balance")
 async def balance(interaction: discord.Interaction):
     bal = wallet.get_balance(interaction.user.id)
