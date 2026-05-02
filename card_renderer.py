@@ -82,8 +82,8 @@ def render_blackjack_hand(player_cards, dealer_cards, hide_dealer=True, result=N
     draw = ImageDraw.Draw(canvas)
 
     try:
-        font = ImageFont.truetype("C:/Windows/Fonts/georgiab.ttf", 48)
-        big_font = ImageFont.truetype("C:/Windows/Fonts/georgiab.ttf", 64)
+        font = ImageFont.truetype("assets/fonts/georgiab.ttf", 48)
+        big_font = ImageFont.truetype("assets/fonts/georgiab.ttf", 64)
     except OSError:
         font = ImageFont.load_default()
         big_font = font

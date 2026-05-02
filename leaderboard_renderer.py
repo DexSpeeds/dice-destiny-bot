@@ -15,7 +15,7 @@ _font_cache = {}
 
 def _get_font(size):
     if size not in _font_cache:
-        for p in ["C:/Windows/Fonts/georgiab.ttf", "C:/Windows/Fonts/arialbd.ttf"]:
+        for p in ["assets/fonts/georgiab.ttf", "assets/fonts/arialbd.ttf"]:
             try:
                 _font_cache[size] = ImageFont.truetype(p, size)
                 break

@@ -30,9 +30,9 @@ def _get_font(size):
     if size not in _font_cache:
         # Try Georgia Bold for elegant serif look, fallback chain
         for path in [
-            "C:/Windows/Fonts/georgiab.ttf",
-            "C:/Windows/Fonts/timesbd.ttf",
-            "C:/Windows/Fonts/arialbd.ttf",
+            "assets/fonts/georgiab.ttf",
+            "assets/fonts/georgiab.ttf",
+            "assets/fonts/arialbd.ttf",
         ]:
             try:
                 _font_cache[size] = ImageFont.truetype(path, size)
