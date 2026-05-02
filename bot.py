@@ -22,6 +22,7 @@ from lottery_renderer import render_ticket, render_lottery_background, render_lo
 from leaderboard_renderer import render_leaderboard
 from community_roulette import CommunityRoulette, CommunityBetView, setup_community_table, spin_community_roulette, update_community_table, set_community_ref
 from referral_system import ReferralSystem, REFERRAL_BONUS
+from rates_system import fetch_osrs_price, calculate_rates, render_rates
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -377,8 +378,8 @@ async def on_ready():
         dd_category = bot.get_channel(1499139727201271984)
         if dd_category:
             everyone = dd_category.guild.default_role
-            await dd_category.set_permissions(everyone, send_messages=False, use_application_commands=True)
-            await dd_category.set_permissions(dd_category.guild.me, send_messages=True)
+            await dd_category.set_permissions(everyone, view_channel=True, send_messages=False, use_application_commands=True, read_message_history=True)
+            await dd_category.set_permissions(dd_category.guild.me, send_messages=True, view_channel=True)
             print("Dice & Destiny category locked - commands only")
     except Exception as e:
         print(f"Could not lock category: {e}")
@@ -422,6 +423,78 @@ async def on_ready():
 
 
 # ============================================================
+# ============================================================
+# RATES SYSTEM
+# ============================================================
+
+RATES_CHANNEL_ID = 1500194683333120160
+_rates_msg = None
+
+
+@bot.tree.command(name="rates", description="Post/update gold rates in the rates channel")
+async def rates_cmd(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    await interaction.response.defer(ephemeral=True)
+    await _update_rates()
+    await interaction.followup.send("Rates updated!", ephemeral=True)
+
+
+async def _update_rates():
+    """Fetch prices and update rates image"""
+    global _rates_msg
+
+    ch = bot.get_channel(RATES_CHANNEL_ID)
+    if not ch:
+        return
+
+    # Lock channel
+    try:
+        everyone = ch.guild.default_role
+        await ch.set_permissions(everyone, send_messages=False)
+        await ch.set_permissions(ch.guild.me, send_messages=True)
+    except Exception:
+        pass
+
+    # Fetch live price
+    base_price = await fetch_osrs_price()
+    rates = calculate_rates(base_price)
+
+    # Render image
+    buf = render_rates(rates['buy_crypto'], rates['buy_other'], rates['sell'])
+    file = discord.File(buf, filename="rates.png")
+
+    # Update existing or send new
+    if _rates_msg:
+        try:
+            await _rates_msg.edit(attachments=[file])
+            return
+        except Exception:
+            _rates_msg = None
+
+    async for msg in ch.history(limit=10):
+        if msg.author == ch.guild.me:
+            try:
+                await msg.edit(attachments=[file])
+                _rates_msg = msg
+                return
+            except Exception:
+                pass
+
+    _rates_msg = await ch.send(file=file)
+
+
+@tasks.loop(minutes=15)
+async def rates_refresh():
+    """Auto-refresh rates every 15 minutes"""
+    if not bot.is_ready():
+        return
+    try:
+        await _update_rates()
+    except Exception as e:
+        print(f"Rates refresh error: {e}")
+
+
 # ============================================================
 # HOUSE STATS
 # ============================================================
