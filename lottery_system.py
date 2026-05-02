@@ -91,7 +91,7 @@ class LotterySystem:
         return f"{minutes}m"
 
     def is_draw_time(self):
-        return time.time() >= self.draw_time and len(self.entries) > 0
+        return time.time() >= self.draw_time and len(self.entries) >= 3
 
     def should_announce(self):
         remaining = self.draw_time - time.time()
@@ -115,8 +115,9 @@ class LotterySystem:
         }
 
     def draw(self):
-        """Random fair draw - 3 prizes always fall."""
-        if len(self.entries) == 0:
+        """Random fair draw - 3 unique winners, minimum 3 players."""
+        if len(self.entries) < 3:
+            # Not enough players - don't draw, extend timer
             self.draw_time = time.time() + DRAW_INTERVAL
             self.announced = False
             self._save()
@@ -125,31 +126,13 @@ class LotterySystem:
         pot_after = int(self.total_pot * (1 - HOUSE_EDGE))
         prizes = [int(pot_after * 0.50), int(pot_after * 0.30), int(pot_after * 0.20)]
 
-        # Shuffle all entries randomly
+        # Random draw - 3 unique winners
         pool = list(self.entries)
         random.shuffle(pool)
+        drawn = pool[:3]  # First 3 from shuffled list = 3 random unique winners
 
         winners = []
-        used = set()
-
-        for place in range(3):
-            if len(pool) == 1:
-                # Only 1 person - they get all remaining prizes
-                winner = pool[0]
-            elif len(used) < len(pool):
-                # Pick random winner not yet picked
-                for entry in pool:
-                    if entry['user_id'] not in used:
-                        winner = entry
-                        break
-                else:
-                    # All unique picked, cycle back (1 or 2 players get multiple)
-                    winner = pool[place % len(pool)]
-            else:
-                winner = pool[place % len(pool)]
-
-            used.add(winner['user_id'])
-
+        for place, winner in enumerate(drawn):
             winners.append({
                 'user_id': winner['user_id'],
                 'user_name': winner['user_name'],
