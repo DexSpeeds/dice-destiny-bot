@@ -407,6 +407,7 @@ async def on_ready():
 # HOUSE STATS
 # ============================================================
 
+HOUSE_STATS_CHANNEL_ID = 1500121698513457192
 _house_stats_msg = None
 
 @bot.tree.command(name="housestats", description="Show house profit/loss stats in this channel")
@@ -480,11 +481,13 @@ async def _update_house_stats(channel=None):
 
 @tasks.loop(minutes=5)
 async def house_stats_refresh():
-    """Auto-refresh house stats"""
-    if not bot.is_ready() or not _house_stats_msg:
+    """Auto-refresh house stats in the hardcoded channel"""
+    if not bot.is_ready():
         return
     try:
-        await _update_house_stats(_house_stats_msg.channel)
+        ch = bot.get_channel(HOUSE_STATS_CHANNEL_ID)
+        if ch:
+            await _update_house_stats(ch)
     except Exception:
         pass
 
