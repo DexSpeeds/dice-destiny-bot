@@ -423,7 +423,7 @@ class ReferralClaimModal(discord.ui.Modal, title="Enter Referral Code"):
     def __init__(self):
         super().__init__()
         self.code_input = discord.ui.TextInput(
-            label="Referral Code", placeholder="e.g. dex", required=True, max_length=30
+            label="Referral Code", placeholder="chase", required=True, max_length=30
         )
         self.add_item(self.code_input)
 
