@@ -360,6 +360,17 @@ async def on_ready():
     if not house_stats_refresh.is_running():
         house_stats_refresh.start()
 
+    # Lock Dice & Destiny category - only bot can post, players use commands only
+    try:
+        dd_category = bot.get_channel(1499139727201271984)
+        if dd_category:
+            everyone = dd_category.guild.default_role
+            await dd_category.set_permissions(everyone, send_messages=False, use_application_commands=True)
+            await dd_category.set_permissions(dd_category.guild.me, send_messages=True)
+            print("Dice & Destiny category locked - commands only")
+    except Exception as e:
+        print(f"Could not lock category: {e}")
+
     # Load game commands cog (only once)
     if not _cog_loaded:
         try:
