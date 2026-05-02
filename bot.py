@@ -357,6 +357,9 @@ async def on_ready():
     if not leaderboard_refresh.is_running():
         leaderboard_refresh.start()
 
+    if not house_stats_refresh.is_running():
+        house_stats_refresh.start()
+
     # Load game commands cog (only once)
     if not _cog_loaded:
         try:
@@ -400,6 +403,92 @@ async def on_ready():
 
 
 # ============================================================
+# ============================================================
+# HOUSE STATS
+# ============================================================
+
+_house_stats_msg = None
+
+@bot.tree.command(name="housestats", description="Show house profit/loss stats in this channel")
+async def housestats(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    await interaction.response.defer(ephemeral=True)
+    await _update_house_stats(interaction.channel)
+    await interaction.followup.send("House stats posted!", ephemeral=True)
+
+
+async def _update_house_stats(channel=None):
+    """Update house stats static message"""
+    global _house_stats_msg
+
+    total_wagered = 0
+    total_won = 0
+    total_lost = 0
+    total_players = 0
+    total_games = 0
+
+    for uid, s in stats.stats.items():
+        total_wagered += s.get('total_wagered', 0)
+        total_won += s.get('total_won', 0)
+        total_lost += s.get('total_lost', 0)
+        total_games += s.get('games_played', 0)
+        if s.get('games_played', 0) > 0:
+            total_players += 1
+
+    house_profit = total_lost - total_won
+    profit_emoji = "📈" if house_profit >= 0 else "📉"
+
+    embed = discord.Embed(
+        title="🏦 HOUSE STATISTICS",
+        color=COLOR_WIN if house_profit >= 0 else COLOR_LOSS
+    )
+    embed.add_field(name="Total Wagered", value=f"**{total_wagered:,} GP**", inline=True)
+    embed.add_field(name="Total Paid Out", value=f"**{total_won:,} GP**", inline=True)
+    embed.add_field(name="Total Collected", value=f"**{total_lost:,} GP**", inline=True)
+    embed.add_field(name=f"{profit_emoji} House Profit", value=f"**{house_profit:,} GP**", inline=True)
+    embed.add_field(name="Total Players", value=f"**{total_players}**", inline=True)
+    embed.add_field(name="Total Games", value=f"**{total_games:,}**", inline=True)
+
+    if total_wagered > 0:
+        edge = (house_profit / total_wagered) * 100
+        embed.add_field(name="Effective House Edge", value=f"**{edge:.2f}%**", inline=True)
+
+    embed.set_footer(text="Dice & Destiny • Updates every 5 minutes")
+
+    if not channel:
+        return
+
+    # Update existing or send new
+    if _house_stats_msg:
+        try:
+            await _house_stats_msg.edit(embed=embed)
+            return
+        except Exception:
+            _house_stats_msg = None
+
+    async for msg in channel.history(limit=10):
+        if msg.author == channel.guild.me and msg.embeds:
+            for e in msg.embeds:
+                if e.title and "HOUSE" in e.title:
+                    await msg.edit(embed=embed)
+                    _house_stats_msg = msg
+                    return
+
+    _house_stats_msg = await channel.send(embed=embed)
+
+
+@tasks.loop(minutes=5)
+async def house_stats_refresh():
+    """Auto-refresh house stats"""
+    if not bot.is_ready() or not _house_stats_msg:
+        return
+    try:
+        await _update_house_stats(_house_stats_msg.channel)
+    except Exception:
+        pass
+
+
 # ============================================================
 # REFERRAL SYSTEM
 # ============================================================
