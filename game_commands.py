@@ -1382,6 +1382,7 @@ class BlackjackPlayView(discord.ui.View):
         self.game_id = game_id
         self.cog = cog
         self.insured = False
+        self.has_acted = False  # True after first hit - disables double down
 
         # Add split button if possible
         if can_split:
@@ -1467,6 +1468,7 @@ class BlackjackPlayView(discord.ui.View):
             await interaction.response.send_message("Not your game!", ephemeral=True)
             return
         await interaction.response.defer()
+        self.has_acted = True  # No more double down after first hit
         result = self.game.hit()
         active = result.get('active_hand', self.game.active_hand)
         active_value = result.get('split_value', 0) if active == 'split' else result['player_value']
@@ -1555,6 +1557,9 @@ class BlackjackPlayView(discord.ui.View):
     async def double(self, interaction, button):
         if interaction.user.id != self.user.id:
             await interaction.response.send_message("Not your game!", ephemeral=True)
+            return
+        if self.has_acted:
+            await interaction.response.send_message("Double down only on first action!", ephemeral=True)
             return
         if not self.cog.wallet.has_balance(self.user.id, self.bet):
             await interaction.response.send_message("Not enough GP to double!", ephemeral=True)
