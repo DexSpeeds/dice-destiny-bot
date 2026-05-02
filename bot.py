@@ -23,6 +23,7 @@ from leaderboard_renderer import render_leaderboard
 from community_roulette import CommunityRoulette, CommunityBetView, setup_community_table, spin_community_roulette, update_community_table, set_community_ref
 from referral_system import ReferralSystem, REFERRAL_BONUS
 from rates_system import fetch_osrs_price, calculate_rates, render_rates
+from settings_panel import SettingsView, build_settings_embed
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -423,6 +424,20 @@ async def on_ready():
 
 
 # ============================================================
+# ============================================================
+# SETTINGS PANEL
+# ============================================================
+
+@bot.tree.command(name="settings", description="Open the bot settings panel")
+async def settings_cmd(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    config_data = config
+    embed = build_settings_embed(config_data)
+    view = SettingsView()
+    await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
+
+
 # ============================================================
 # RATES SYSTEM
 # ============================================================

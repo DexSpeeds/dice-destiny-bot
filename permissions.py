@@ -1,5 +1,6 @@
 """
-Permission System - Owner + Cashier for admin, everyone can play
+Permission System - Owner, Cashier, Admin Roles, Discord Admin
+Dynamically updated via settings panel
 """
 import discord
 import json
@@ -11,19 +12,16 @@ with open(_config_path, 'r') as f:
 
 OWNER_IDS = _config['staff']['owner_ids']
 CASHIER_ROLE_ID = _config['staff'].get('cashier_role_id', 0)
+ADMIN_ROLES = _config['staff'].get('admin_roles', [])
 
 
 class PermissionSystem:
-    """Handle all permission checks"""
-
     @staticmethod
     async def check_play_permission(interaction: discord.Interaction) -> bool:
-        """Everyone can play"""
         return True
 
     @staticmethod
     async def check_admin_permission(interaction: discord.Interaction) -> bool:
-        """Owner, Cashier role, or Discord admin"""
         member = interaction.user
 
         # Server owner
@@ -37,6 +35,12 @@ class PermissionSystem:
         # Cashier role
         if CASHIER_ROLE_ID and any(role.id == CASHIER_ROLE_ID for role in member.roles):
             return True
+
+        # Admin roles from settings
+        if ADMIN_ROLES:
+            for role in member.roles:
+                if role.id in ADMIN_ROLES:
+                    return True
 
         # Discord admin permission
         if member.guild_permissions.administrator:
