@@ -210,6 +210,12 @@ class GameCommands(commands.Cog):
     ])
     async def coinflip(self, interaction: discord.Interaction, choice: str, bet: str):
         # Defer FIRST to prevent timeout
+        # Channel check before defer
+        ch_err = self._check_channel(interaction, 'coinflip')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
+            return
+
         await interaction.response.defer()
 
         amount, err = self._check_bet(interaction.user.id, 'coinflip', bet, interaction=None)
@@ -289,6 +295,10 @@ class GameCommands(commands.Cog):
         app_commands.Choice(name="Draw - 9x", value="draw"),
     ])
     async def flowerpoker(self, interaction: discord.Interaction, choice: str, bet: str):
+        ch_err = self._check_channel(interaction, 'flowerpoker')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
+            return
         await interaction.response.defer()
         amount, err = self._check_bet(interaction.user.id, 'flowerpoker', bet, interaction=None)
         if err:
@@ -498,6 +508,10 @@ class GameCommands(commands.Cog):
         if number < 1 or number > 100:
             await interaction.response.send_message("Number must be 1-100!", ephemeral=True)
             return
+        ch_err = self._check_channel(interaction, 'ninetynine')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
+            return
 
         await interaction.response.defer()
         amount, err = self._check_bet(interaction.user.id, 'ninetynine', bet, interaction=None)
@@ -543,6 +557,10 @@ class GameCommands(commands.Cog):
     @app_commands.command(name="blackjack", description="Beat the dealer! Win: 1.9x, Blackjack: 2.5x")
     @app_commands.describe(bet="Bet amount")
     async def blackjack(self, interaction: discord.Interaction, bet: str):
+        ch_err = self._check_channel(interaction, 'blackjack')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
+            return
         await interaction.response.defer()
         amount, err = self._check_bet(interaction.user.id, 'blackjack', bet, interaction=None)
         if err:
@@ -628,6 +646,10 @@ class GameCommands(commands.Cog):
     async def mines(self, interaction: discord.Interaction, mine_count: int, bet: str):
         if interaction.user.id in self.active_mines:
             await interaction.response.send_message("You have an active mines game! Use /cashout first.", ephemeral=True)
+            return
+        ch_err = self._check_channel(interaction, 'mines')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
             return
 
         await interaction.response.defer()
