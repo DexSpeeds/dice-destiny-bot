@@ -84,10 +84,18 @@ class LotteryBuyView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=None)  # Persistent!
 
-    @discord.ui.button(label="Buy Ticket (10M GP)", style=discord.ButtonStyle.success,
+    @discord.ui.button(label="Buy Ticket (50M GP)", style=discord.ButtonStyle.success,
                        emoji="🎫", custom_id="lottery_buy_ticket")
     async def buy(self, interaction, button):
         user = interaction.user
+
+        # 1 ticket per person
+        if lottery.has_ticket(user.id):
+            await interaction.response.send_message(
+                "You already have a ticket for this draw!",
+                ephemeral=True
+            )
+            return
 
         if not wallet.has_balance(user.id, TICKET_PRICE):
             bal = wallet.get_balance(user.id)
@@ -104,6 +112,10 @@ class LotteryBuyView(discord.ui.View):
         wager_tracker.record_wager(user.id, TICKET_PRICE)
 
         entry = lottery.buy_ticket(user.id, user.name)
+        if not entry:
+            wallet.add_balance(user.id, TICKET_PRICE)  # Refund
+            await interaction.followup.send("You already have a ticket!", ephemeral=True)
+            return
         ticket_no = entry['ticket_no']
         numbers = entry['numbers']
 
