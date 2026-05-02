@@ -378,6 +378,9 @@ async def on_ready():
     if not auto_backup.is_running():
         auto_backup.start()
 
+    if not rates_refresh.is_running():
+        rates_refresh.start()
+
     # Lock Dice & Destiny category - only bot can post, players use commands only
     try:
         dd_category = bot.get_channel(1499139727201271984)
