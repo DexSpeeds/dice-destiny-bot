@@ -284,9 +284,9 @@ class GameCommands(commands.Cog):
     @app_commands.command(name="flowerpoker", description="5 flowers planted - best poker hand wins!")
     @app_commands.describe(choice="Bet on player, host, or draw", bet="Bet amount")
     @app_commands.choices(choice=[
-        app_commands.Choice(name="Player - 1.9x", value="player"),
-        app_commands.Choice(name="Host - 1.9x", value="host"),
-        app_commands.Choice(name="Draw - 2.8x", value="draw"),
+        app_commands.Choice(name="Player - 2x", value="player"),
+        app_commands.Choice(name="Host - 2x", value="host"),
+        app_commands.Choice(name="Draw - 9x", value="draw"),
     ])
     async def flowerpoker(self, interaction: discord.Interaction, choice: str, bet: str):
         await interaction.response.defer()
@@ -967,16 +967,16 @@ class RouletteChoiceView(discord.ui.View):
         self.chosen = False
 
         bets = [
-            ('Red 1.9x', 'red', discord.ButtonStyle.danger, '🔴', 0),
-            ('Black 1.9x', 'black', discord.ButtonStyle.secondary, '⚫', 0),
-            ('Even 1.9x', 'even', discord.ButtonStyle.primary, '2️⃣', 0),
-            ('Odd 1.9x', 'odd', discord.ButtonStyle.primary, '1️⃣', 0),
-            ('1-18 1.9x', 'low', discord.ButtonStyle.success, '⬇️', 1),
-            ('19-36 1.9x', 'high', discord.ButtonStyle.success, '⬆️', 1),
-            ('1st 12 3x', 'dozen1', discord.ButtonStyle.secondary, '1️⃣', 2),
-            ('2nd 12 3x', 'dozen2', discord.ButtonStyle.secondary, '2️⃣', 2),
-            ('3rd 12 3x', 'dozen3', discord.ButtonStyle.secondary, '3️⃣', 2),
-            ('Number 35x', 'pick_number', discord.ButtonStyle.primary, '🎯', 3),
+            ('Red 1.85x', 'red', discord.ButtonStyle.danger, '🔴', 0),
+            ('Black 1.85x', 'black', discord.ButtonStyle.secondary, '⚫', 0),
+            ('Even 1.85x', 'even', discord.ButtonStyle.primary, '2️⃣', 0),
+            ('Odd 1.85x', 'odd', discord.ButtonStyle.primary, '1️⃣', 0),
+            ('1-18 1.85x', 'low', discord.ButtonStyle.success, '⬇️', 1),
+            ('19-36 1.85x', 'high', discord.ButtonStyle.success, '⬆️', 1),
+            ('1st 12 2.78x', 'dozen1', discord.ButtonStyle.secondary, '1️⃣', 2),
+            ('2nd 12 2.78x', 'dozen2', discord.ButtonStyle.secondary, '2️⃣', 2),
+            ('3rd 12 2.78x', 'dozen3', discord.ButtonStyle.secondary, '3️⃣', 2),
+            ('Number 33x', 'pick_number', discord.ButtonStyle.primary, '🎯', 3),
         ]
         for label, value, style, emoji, row in bets:
             if value == 'pick_number':
@@ -1117,9 +1117,9 @@ class DiceChoiceView(discord.ui.View):
 
         # Build buttons - try custom emojis first
         for bet_type, label, fallback_emoji, style in [
-            ('under', 'Under (1.9x)', '⬇️', discord.ButtonStyle.primary),
-            ('mid', 'Mid (3.1x)', '↔️', discord.ButtonStyle.success),
-            ('over', 'Over (1.9x)', '⬆️', discord.ButtonStyle.danger),
+            ('under', 'Under (2.14x)', '⬇️', discord.ButtonStyle.primary),
+            ('mid', 'Mid (5.62x)', '↔️', discord.ButtonStyle.success),
+            ('over', 'Over (2.14x)', '⬆️', discord.ButtonStyle.danger),
         ]:
             # Try custom emoji from server
             emoji_names = {'under': 'under', 'mid': 'Mid', 'over': 'over'}
@@ -1201,7 +1201,7 @@ class HotColdChoiceView(discord.ui.View):
         hot_btn.callback = self._make_callback('hot')
         self.add_item(hot_btn)
 
-        cold_btn = discord.ui.Button(style=discord.ButtonStyle.primary, label="Cold (2.1x)", emoji="❄️", row=0)
+        cold_btn = discord.ui.Button(style=discord.ButtonStyle.primary, label="Cold (3x)", emoji="❄️", row=0)
         cold_btn.callback = self._make_callback('cold')
         self.add_item(cold_btn)
 

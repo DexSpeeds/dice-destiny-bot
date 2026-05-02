@@ -98,7 +98,7 @@ def render_lottery_background(total_pot, time_left, total_entries):
     draw.text((w // 2, 500), total_entries, fill=gold, font=info_font, anchor="mm")
 
     # Ticket price at bottom
-    draw.text((w // 2, 580), "Ticket: 10,000,000 GP", fill=(180, 160, 120), font=info_font, anchor="mm")
+    draw.text((w // 2, 580), "Ticket: 50,000,000 GP", fill=(180, 160, 120), font=info_font, anchor="mm")
 
     buf = io.BytesIO()
     img.save(buf, format='PNG')

@@ -8,7 +8,7 @@ from provably_fair import GameSession
 class DiceDuel:
     """Dice Duel - player vs house, highest roll wins"""
 
-    def __init__(self, payout=1.9):
+    def __init__(self, payout=1.8):
         self.payout = payout
 
     def play(self, bet):

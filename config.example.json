@@ -32,13 +32,13 @@
     "coinflip": {
       "min_bet": 100000,
       "max_bet": 500000000,
-      "payout": 1.9
+      "payout": 1.8
     },
     "flowerpoker": {
       "min_bet": 100000,
       "max_bet": 500000000,
-      "host_payout": 1.9,
-      "player_payout": 1.9
+      "host_payout": 2.0,
+      "player_payout": 2.0
     },
     "hotcold": {
       "min_bet": 1000000,
@@ -53,9 +53,9 @@
     "caskets": {
       "min_bet": 100000,
       "max_bet": 500000000,
-      "coin_payout": 1.9,
-      "gem_payout": 2.5,
-      "rare_payout": 5.0
+      "coin_payout": 2.7,
+      "gem_payout": 2.7,
+      "rare_payout": 2.7
     },
     "dice": {
       "min_bet": 100000,
@@ -65,7 +65,7 @@
     "blackjack": {
       "min_bet": 100000,
       "max_bet": 500000000,
-      "win_payout": 1.9,
+      "win_payout": 1.8,
       "blackjack_payout": 2.5
     },
     "roulette": {

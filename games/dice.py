@@ -5,10 +5,11 @@ Under (1-42): 1.9x | Mid (43-58): 3.1x | Over (59-100): 1.9x
 """
 from provably_fair import GameSession
 
+# All multipliers set for 10% house edge
 DICE_RANGES = {
-    'under': {'range': (1, 42), 'multiplier': 1.9},
-    'mid':   {'range': (43, 58), 'multiplier': 3.1},
-    'over':  {'range': (59, 100), 'multiplier': 1.9},
+    'under': {'range': (1, 42), 'multiplier': 2.14},
+    'mid':   {'range': (43, 58), 'multiplier': 5.62},
+    'over':  {'range': (59, 100), 'multiplier': 2.14},
 }
 
 

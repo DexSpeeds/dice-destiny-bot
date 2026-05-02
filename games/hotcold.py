@@ -30,18 +30,19 @@ class HotCold:
     """Hot/Cold Flower game with real drop rates"""
 
     # Payouts
+    # All payouts set for 10% house edge
     PAYOUTS = {
         'hot': 2.0,         # ~44.9% chance
-        'cold': 2.1,        # ~29.8% chance
+        'cold': 3.0,        # ~29.8% chance
         'red': 6.0,         # ~15.0% chance
-        'yellow': 6.0,      # ~15.0%
-        'blue': 6.0,        # ~15.0%
-        'orange': 6.0,      # ~15.0%
-        'mixed': 6.0,       # ~15.0%
-        'purple': 6.3,      # ~14.8%
+        'yellow': 6.0,
+        'blue': 6.0,
+        'orange': 6.0,
+        'mixed': 6.0,
+        'purple': 6.0,      # ~14.8%
         'assorted': 9.0,    # ~10.0%
-        'black': 400.0,     # ~0.2%
-        'white': 800.0,     # ~0.1%
+        'black': 450.0,     # ~0.2%
+        'white': 900.0,     # ~0.1%
     }
 
     def __init__(self):

@@ -44,7 +44,7 @@ HAND_RANKINGS = {
 class FlowerPoker:
     """Flower Poker game with real drop rates"""
 
-    def __init__(self, player_payout=1.9, host_payout=1.9, draw_payout=2.8):
+    def __init__(self, player_payout=2.0, host_payout=2.0, draw_payout=9.0):
         self.player_payout = player_payout
         self.host_payout = host_payout
         self.draw_payout = draw_payout

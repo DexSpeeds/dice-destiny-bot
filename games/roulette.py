@@ -8,20 +8,21 @@ class Roulette:
     """Roulette game"""
     
     # Standard roulette payouts
+    # All payouts set for 10% house edge
     PAYOUTS = {
-        'number': 35,      # Single number
-        'red': 1.9,        # Red/Black
-        'black': 1.9,
-        'even': 1.9,       # Even/Odd
-        'odd': 1.9,
-        'low': 1.9,        # 1-18 / 19-36
-        'high': 1.9,
-        'dozen1': 3,       # 1-12
-        'dozen2': 3,       # 13-24
-        'dozen3': 3,       # 25-36
-        'column1': 3,      # Columns
-        'column2': 3,
-        'column3': 3
+        'number': 33.33,   # Single number
+        'red': 1.85,       # Red/Black
+        'black': 1.85,
+        'even': 1.85,      # Even/Odd
+        'odd': 1.85,
+        'low': 1.85,       # 1-18 / 19-36
+        'high': 1.85,
+        'dozen1': 2.78,    # 1-12
+        'dozen2': 2.78,    # 13-24
+        'dozen3': 2.78,    # 25-36
+        'column1': 2.78,   # Columns
+        'column2': 2.78,
+        'column3': 2.78
     }
     
     # Red numbers on roulette wheel

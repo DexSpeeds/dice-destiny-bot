@@ -8,7 +8,7 @@ from provably_fair import GameSession
 class NinetyNine:
     """99x - pick your number, match the roll for 99x"""
 
-    MULTIPLIER = 99.0
+    MULTIPLIER = 90.0  # 10% house edge on 1% chance
 
     def __init__(self):
         pass
