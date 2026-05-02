@@ -1,29 +1,22 @@
 """
-Caskets - Different odds per tier
-Coin: 58% chance (common)
-Gem: 38% chance (medium)
-Rare: 4% chance (rare but big payout)
-All with 10% house edge total
+Caskets - Pick a tier, if it drops you win!
+Coin: 58% chance, 1.55x | Gem: 38% chance, 2.37x | Rare: 4% chance, 22.5x
+Each tier has exactly 10% house edge
 """
 from provably_fair import GameSession
 
-# Weighted drop table
 CASKET_WEIGHTS = [
     ('coin', 58),
     ('gem', 38),
     ('rare', 4),
 ]
-TOTAL_WEIGHT = sum(w for _, w in CASKET_WEIGHTS)  # 100
+TOTAL_WEIGHT = 100
 
-# Payouts balanced for ~10% total house edge
-# coin: 58% * 1.55 = 0.899
-# gem: 38% * 2.37 = 0.901
-# rare: 4% * 10.0 = 0.400
-# Total EV per play weighted: ~0.90 = 10% edge
+# Each tier: payout = 0.90 / probability (10% house edge per tier)
 CASKET_PAYOUTS = {
-    'coin': 1.55,
-    'gem': 2.37,
-    'rare': 10.0,
+    'coin': 1.55,    # 0.90 / 0.58
+    'gem': 2.37,     # 0.90 / 0.38
+    'rare': 22.5,    # 0.90 / 0.04
 }
 
 CASKET_EMOJIS = {
@@ -34,7 +27,7 @@ CASKET_EMOJIS = {
 
 
 class Caskets:
-    def __init__(self, coin_payout=1.55, gem_payout=2.37, rare_payout=10.0):
+    def __init__(self, coin_payout=1.55, gem_payout=2.37, rare_payout=22.5):
         self.payouts = {
             'coin': coin_payout,
             'gem': gem_payout,
@@ -42,6 +35,7 @@ class Caskets:
         }
 
     def play(self, bet, choice):
+        """Pick a tier - if it drops you win the payout"""
         session = GameSession()
 
         # Weighted random pick
@@ -55,7 +49,7 @@ class Caskets:
                 break
 
         won = result == choice
-        multiplier = self.payouts[result] if won else 0
+        multiplier = self.payouts[choice] if won else 0
         payout = int(bet * multiplier) if won else 0
 
         return {
