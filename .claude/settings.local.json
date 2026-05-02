@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import discord; print\\(f'discord.py v{discord.__version__}'\\)\")",
+      "Bash(python -c ':*)",
+      "Bash(python:*)",
+      "Bash(tasklist)",
+      "Bash(findstr /i python)",
+      "Bash(taskkill:*)",
+      "Bash(ls -t \"C:/Users/deniz/Downloads/\"*.png)"
+    ]
+  }
+}

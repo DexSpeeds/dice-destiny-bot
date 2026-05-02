@@ -1,0 +1,94 @@
+{
+  "bot_token": "YOUR_BOT_TOKEN_HERE",
+  "command_prefix": "!",
+  "tax_rate": 0.05,
+  "staff": {
+    "owner_ids": [
+      702556935563771964
+    ],
+    "banker_role_id": 1416872975088619682,
+    "cashier_role_id": 1499899248773304423
+  },
+  "channels": {
+    "category_id": 1499139727201271984,
+    "game_channels": {
+      "1499139729549955183": "lottery",
+      "1499139733110919298": "coinflip",
+      "1499140265770745987": "blackjack",
+      "1499140276567146776": "dice",
+      "1499140286285217812": "hotcold",
+      "1499140295902630049": "caskets",
+      "1499140305855971328": "flowerpoker",
+      "1499140315297353770": "roulette",
+      "1499145125199085588": "mines",
+      "1499145134389072158": "ninetynine",
+      "1499145143997956108": "diceduel",
+      "1499213110861627542": "ninetynine"
+    },
+    "game_results": 1499140324746989784,
+    "leaderboard": 1499140329943728379
+  },
+  "game_settings": {
+    "coinflip": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "payout": 1.9
+    },
+    "flowerpoker": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "host_payout": 1.9,
+      "player_payout": 1.9
+    },
+    "hotcold": {
+      "min_bet": 1000000,
+      "max_bet": 500000000,
+      "payouts": {
+        "hot": 1.9,
+        "cold": 1.9,
+        "black": 100,
+        "white": 200
+      }
+    },
+    "caskets": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "coin_payout": 1.9,
+      "gem_payout": 2.5,
+      "rare_payout": 5.0
+    },
+    "dice": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "house_edge": 0.05
+    },
+    "blackjack": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "win_payout": 1.9,
+      "blackjack_payout": 2.5
+    },
+    "roulette": {
+      "min_bet": 100000,
+      "max_bet": 500000000,
+      "betting_time": 180
+    },
+    "lottery": {
+      "min_bet": 10000000,
+      "max_bet": 500000000,
+      "draw_hours": 24
+    },
+    "mines": {
+      "min_bet": 100000,
+      "max_bet": 500000000
+    },
+    "ninetynine": {
+      "min_bet": 100000,
+      "max_bet": 500000000
+    },
+    "diceduel": {
+      "min_bet": 100000,
+      "max_bet": 500000000
+    }
+  }
+}

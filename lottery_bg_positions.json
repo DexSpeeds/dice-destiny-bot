@@ -1,0 +1,26 @@
+{
+  "TITLE": {
+    "x": 692,
+    "y": 164
+  },
+  "TICKET_PRICE": {
+    "x": 410,
+    "y": 226
+  },
+  "TOTAL_POT": {
+    "x": 413,
+    "y": 274
+  },
+  "TIME_LEFT": {
+    "x": 413,
+    "y": 318
+  },
+  "TOTAL_ENTRIES": {
+    "x": 415,
+    "y": 357
+  },
+  "PLAYER_LIST_START": {
+    "x": 832,
+    "y": 222
+  }
+}

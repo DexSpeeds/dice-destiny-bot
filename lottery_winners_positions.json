@@ -1,0 +1,26 @@
+{
+  "WINNER_1ST_NAME": {
+    "x": 599,
+    "y": 909
+  },
+  "WINNER_1ST_PRIZE": {
+    "x": 543,
+    "y": 929
+  },
+  "WINNER_2ND_NAME": {
+    "x": 221,
+    "y": 909
+  },
+  "WINNER_2ND_PRIZE": {
+    "x": 174,
+    "y": 937
+  },
+  "WINNER_3RD_NAME": {
+    "x": 955,
+    "y": 914
+  },
+  "WINNER_3RD_PRIZE": {
+    "x": 902,
+    "y": 942
+  }
+}
