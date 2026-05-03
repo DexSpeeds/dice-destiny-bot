@@ -1,11 +1,11 @@
 {
   "1494106269798105169": {
-    "total_wagered": 1936000000,
+    "total_wagered": 1946000000,
     "total_won": 5927200000,
-    "total_lost": 687000000,
-    "games_played": 55,
+    "total_lost": 697000000,
+    "games_played": 57,
     "games_won": 35,
-    "games_lost": 20,
+    "games_lost": 22,
     "biggest_win": 4500000000,
     "biggest_loss": 500000000,
     "by_game": {
@@ -38,11 +38,11 @@
         "profit": -10000000
       },
       "caskets": {
-        "played": 5,
+        "played": 7,
         "won": 2,
-        "lost": 3,
-        "wagered": 25000000,
-        "profit": 350000
+        "lost": 5,
+        "wagered": 35000000,
+        "profit": -9650000
       },
       "dice": {
         "played": 1,
