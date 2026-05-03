@@ -125,13 +125,13 @@
     }
   },
   "1273314061580238911": {
-    "total_wagered": 8005000000,
-    "total_won": 1800000000,
-    "total_lost": 7005000000,
-    "games_played": 16,
-    "games_won": 2,
-    "games_lost": 14,
-    "biggest_win": 900000000,
+    "total_wagered": 15005000000,
+    "total_won": 6950000000,
+    "total_lost": 12005000000,
+    "games_played": 29,
+    "games_won": 5,
+    "games_lost": 24,
+    "biggest_win": 2000000000,
     "biggest_loss": 1000000000,
     "by_game": {
       "staking": {
@@ -149,11 +149,11 @@
         "profit": -1500000000
       },
       "blackjack": {
-        "played": 7,
-        "won": 2,
+        "played": 8,
+        "won": 3,
         "lost": 5,
-        "wagered": 4000000000,
-        "profit": -2200000000
+        "wagered": 5000000000,
+        "profit": -1400000000
       },
       "flowerpoker": {
         "played": 3,
@@ -170,11 +170,18 @@
         "profit": -500000000
       },
       "caskets": {
-        "played": 1,
-        "won": 0,
-        "lost": 1,
-        "wagered": 500000000,
-        "profit": -500000000
+        "played": 4,
+        "won": 1,
+        "lost": 3,
+        "wagered": 2000000000,
+        "profit": -650000000
+      },
+      "mines": {
+        "played": 9,
+        "won": 1,
+        "lost": 8,
+        "wagered": 4500000000,
+        "profit": -2500000000
       }
     }
   },
