@@ -315,12 +315,12 @@
     }
   },
   "226414589783310336": {
-    "total_wagered": 160000000,
+    "total_wagered": 170000000,
     "total_won": 110000000,
-    "total_lost": 90000000,
-    "games_played": 5,
+    "total_lost": 100000000,
+    "games_played": 6,
     "games_won": 2,
-    "games_lost": 3,
+    "games_lost": 4,
     "biggest_win": 90000000,
     "biggest_loss": 50000000,
     "by_game": {
@@ -337,6 +337,13 @@
         "lost": 2,
         "wagered": 60000000,
         "profit": -40000000
+      },
+      "caskets": {
+        "played": 1,
+        "won": 0,
+        "lost": 1,
+        "wagered": 10000000,
+        "profit": -10000000
       }
     }
   }
