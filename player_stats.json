@@ -1,12 +1,12 @@
 {
   "1494106269798105169": {
-    "total_wagered": 296000000,
-    "total_won": 247850000,
+    "total_wagered": 401000000,
+    "total_won": 447350000,
     "total_lost": 167000000,
-    "games_played": 44,
-    "games_won": 29,
+    "games_played": 46,
+    "games_won": 31,
     "games_lost": 15,
-    "biggest_win": 13500000,
+    "biggest_win": 190000000,
     "biggest_loss": 100000000,
     "by_game": {
       "coinflip": {
@@ -24,11 +24,11 @@
         "profit": 4250000
       },
       "staking": {
-        "played": 38,
-        "won": 25,
+        "played": 40,
+        "won": 27,
         "lost": 13,
-        "wagered": 266000000,
-        "profit": -58900000
+        "wagered": 371000000,
+        "profit": 35600000
       },
       "flowerpoker": {
         "played": 2,
