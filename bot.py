@@ -411,8 +411,9 @@ async def on_ready():
             for cmd in all_cmds:
                 print(f"  /{cmd.name}")
 
-            # Sync to each guild for instant availability
+            # Sync to each guild for instant availability (guild-only, no global)
             for guild in bot.guilds:
+                bot.tree.copy_global_to(guild=guild)
                 guild_synced = await bot.tree.sync(guild=guild)
                 print(f"Synced {len(guild_synced)} commands to {guild.name}")
         except Exception as e:
