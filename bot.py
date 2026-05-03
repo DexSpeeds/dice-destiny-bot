@@ -413,7 +413,6 @@ async def on_ready():
 
             # Sync to each guild for instant availability
             for guild in bot.guilds:
-                bot.tree.copy_global_to(guild=guild)
                 guild_synced = await bot.tree.sync(guild=guild)
                 print(f"Synced {len(guild_synced)} commands to {guild.name}")
         except Exception as e:
