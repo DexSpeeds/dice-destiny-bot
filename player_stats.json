@@ -1,13 +1,13 @@
 {
   "1494106269798105169": {
-    "total_wagered": 10000000,
+    "total_wagered": 15000000,
     "total_won": 18250000,
-    "total_lost": 0,
-    "games_played": 2,
+    "total_lost": 5000000,
+    "games_played": 3,
     "games_won": 2,
-    "games_lost": 0,
+    "games_lost": 1,
     "biggest_win": 9250000,
-    "biggest_loss": 0,
+    "biggest_loss": 5000000,
     "by_game": {
       "coinflip": {
         "played": 1,
@@ -17,11 +17,11 @@
         "profit": 4000000
       },
       "roulette": {
-        "played": 1,
+        "played": 2,
         "won": 1,
-        "lost": 0,
-        "wagered": 5000000,
-        "profit": 4250000
+        "lost": 1,
+        "wagered": 10000000,
+        "profit": -750000
       }
     }
   },
