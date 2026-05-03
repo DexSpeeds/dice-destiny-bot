@@ -776,21 +776,18 @@ class GameCommands(commands.Cog):
         # === REAL-TIME FIGHT ===
         channel = interaction.channel
 
-        # Starting frame - both at 99 HP
-        idle_buf = render_idle_frame(99, 99)
-        file = discord.File(idle_buf, filename="stake.png")
+        # Starting message - show fighters ready
         embed = discord.Embed(
             title=f"⚔️ Stake #{game_id} - FIGHT!",
-            description=f"{interaction.user.mention} vs **House** — {amount:,} GP",
+            description=f"{interaction.user.mention} vs **House** — {amount:,} GP\n\n"
+                        f"❤️ You: **99** HP — Host: **99** HP\n\n"
+                        f"*Preparing to fight...*",
             color=COLOR_GOLD
         )
-        embed.set_image(url="attachment://stake.png")
-        embed.set_footer(text="Round 1 starting...")
-        msg = await interaction.followup.send(embed=embed, file=file)
+        msg = await interaction.followup.send(embed=embed)
+        await asyncio.sleep(2)
 
-        await asyncio.sleep(1.5)
-
-        # Play each round in real-time
+        # Play each round in real-time - update the SAME message
         player_hp = 99
         host_hp = 99
         fight_lines = []
@@ -801,55 +798,63 @@ class GameCommands(commands.Cog):
             player_hp = rnd['player_hp']
             host_hp = rnd['host_hp']
 
-            p_mark = " **MAX!**" if player_hit >= 25 else ""
-            h_mark = " **MAX!**" if host_hit >= 25 else ""
+            p_mark = " 💥**MAX!**" if player_hit >= 25 else ""
+            h_mark = " 💥**MAX!**" if host_hit >= 25 else ""
             fight_lines.append(
-                f"`{i+1}.` You: **{player_hit}**{p_mark} — Host: **{host_hit}**{h_mark}"
+                f"`{i+1}.` ⚔️ You hit **{player_hit}**{p_mark} — Host hit **{host_hit}**{h_mark}"
             )
 
             is_final = (player_hp <= 0 or host_hp <= 0)
 
-            if is_final:
-                # KO frame
-                img_buf = render_ko_frame(player_hp, host_hp, player_hit, host_hit)
-            else:
-                # Hit frame with splats
-                img_buf = render_hit_frame(player_hp, host_hp, player_hit, host_hit)
+            # Build HP bar text
+            p_bar_pct = max(0, player_hp) / 99
+            h_bar_pct = max(0, host_hp) / 99
+            p_bar = "🟩" * int(p_bar_pct * 10) + "🟥" * (10 - int(p_bar_pct * 10))
+            h_bar = "🟩" * int(h_bar_pct * 10) + "🟥" * (10 - int(h_bar_pct * 10))
 
-            file = discord.File(img_buf, filename="stake.png")
             embed = discord.Embed(
-                title=f"⚔️ Stake #{game_id} - {'FIGHT!' if not is_final else ('YOU WIN!' if won else 'HOST WINS!')}",
+                title=f"⚔️ Stake #{game_id} - {'FIGHT!' if not is_final else ('YOU WIN! 🎉' if won else 'HOST WINS! 💀')}",
                 description=f"{interaction.user.mention} vs **House** — {amount:,} GP",
                 color=COLOR_GOLD if not is_final else (COLOR_WIN if won else COLOR_LOSS)
             )
             embed.add_field(
-                name="HP",
-                value=f"❤️ You: **{player_hp}** — Host: **{host_hp}**",
-                inline=False
+                name=f"You: {player_hp} HP",
+                value=p_bar,
+                inline=True
             )
             embed.add_field(
-                name=f"Fight Log",
-                value="\n".join(fight_lines[-5:]),  # Last 5 hits
+                name=f"Host: {host_hp} HP",
+                value=h_bar,
+                inline=True
+            )
+            embed.add_field(
+                name=f"Round {i+1}",
+                value="\n".join(fight_lines[-6:]),
                 inline=False
             )
-            embed.set_image(url="attachment://stake.png")
 
             if is_final:
                 if won:
-                    embed.add_field(name="Won", value=f"{payout:,} GP", inline=True)
+                    embed.add_field(name="💰 Won", value=f"**{payout:,} GP**", inline=True)
                 else:
-                    embed.add_field(name="Lost", value=f"{amount:,} GP", inline=True)
+                    embed.add_field(name="💸 Lost", value=f"**{amount:,} GP**", inline=True)
                 embed.set_footer(text=f"Server seed: {seeds.get('server_seed_hash', 'N/A')[:32]}...")
 
-            # Delete old message and send new one (can't edit attachments)
             try:
-                await msg.delete()
+                await msg.edit(embed=embed)
             except Exception:
                 pass
-            msg = await channel.send(embed=embed, file=file)
 
             if not is_final:
                 await asyncio.sleep(1.5)
+
+        # Post KO frame as final image
+        if won:
+            ko_buf = render_ko_frame(player_hp, host_hp, result['rounds'][-1]['player_hit'], result['rounds'][-1]['host_hit'])
+        else:
+            ko_buf = render_ko_frame(player_hp, host_hp, result['rounds'][-1]['player_hit'], result['rounds'][-1]['host_hit'])
+        file = discord.File(ko_buf, filename="stake_ko.png")
+        await channel.send(file=file, view=ResultButtons(seeds))
 
         # Record stats
         if won:
