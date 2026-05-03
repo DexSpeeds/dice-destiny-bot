@@ -760,11 +760,9 @@ class GameCommands(commands.Cog):
             await interaction.response.send_message(ch_err, ephemeral=True)
             return
 
-        await interaction.response.defer()
-
         amount, err = self._check_bet(interaction.user.id, 'staking', bet, interaction=None)
         if err:
-            await interaction.followup.send(err, ephemeral=True)
+            await interaction.response.send_message(err, ephemeral=True)
             return
 
         self._deduct(interaction.user.id, 'staking', amount)
@@ -776,7 +774,7 @@ class GameCommands(commands.Cog):
         # === REAL-TIME FIGHT ===
         channel = interaction.channel
 
-        # Starting message - show fighters ready
+        # Starting message - direct response (not deferred)
         embed = discord.Embed(
             title=f"⚔️ Stake #{game_id} - FIGHT!",
             description=f"{interaction.user.mention} vs **House** — {amount:,} GP\n\n"
@@ -784,10 +782,10 @@ class GameCommands(commands.Cog):
                         f"*Preparing to fight...*",
             color=COLOR_GOLD
         )
-        msg = await interaction.followup.send(embed=embed)
+        await interaction.response.send_message(embed=embed)
         await asyncio.sleep(2)
 
-        # Play each round in real-time - update the SAME message
+        # Play each round in real-time - edit the original response
         player_hp = 99
         host_hp = 99
         fight_lines = []
@@ -840,19 +838,13 @@ class GameCommands(commands.Cog):
                     embed.add_field(name="💸 Lost", value=f"**{amount:,} GP**", inline=True)
                 embed.set_footer(text=f"Server seed: {seeds.get('server_seed_hash', 'N/A')[:32]}...")
 
-            try:
-                await msg.edit(embed=embed)
-            except Exception:
-                pass
+            await interaction.edit_original_response(embed=embed)
 
             if not is_final:
                 await asyncio.sleep(1.5)
 
         # Post KO frame as final image
-        if won:
-            ko_buf = render_ko_frame(player_hp, host_hp, result['rounds'][-1]['player_hit'], result['rounds'][-1]['host_hit'])
-        else:
-            ko_buf = render_ko_frame(player_hp, host_hp, result['rounds'][-1]['player_hit'], result['rounds'][-1]['host_hit'])
+        ko_buf = render_ko_frame(player_hp, host_hp, result['rounds'][-1]['player_hit'], result['rounds'][-1]['host_hit'])
         file = discord.File(ko_buf, filename="stake_ko.png")
         await channel.send(file=file, view=ResultButtons(seeds))
 
