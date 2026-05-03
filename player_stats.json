@@ -189,5 +189,24 @@
         "profit": -518000000
       }
     }
+  },
+  "1356531844027387995": {
+    "total_wagered": 500000000,
+    "total_won": 1000000000,
+    "total_lost": 0,
+    "games_played": 1,
+    "games_won": 1,
+    "games_lost": 0,
+    "biggest_win": 1000000000,
+    "biggest_loss": 0,
+    "by_game": {
+      "flowerpoker": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 500000000,
+        "profit": 500000000
+      }
+    }
   }
 }
