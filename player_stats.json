@@ -73,12 +73,12 @@
     }
   },
   "430895808833912843": {
-    "total_wagered": 2500000000,
-    "total_won": 900000000,
-    "total_lost": 2000000000,
-    "games_played": 4,
-    "games_won": 1,
-    "games_lost": 3,
+    "total_wagered": 3001000000,
+    "total_won": 901850000,
+    "total_lost": 2500000000,
+    "games_played": 6,
+    "games_won": 2,
+    "games_lost": 4,
     "biggest_win": 900000000,
     "biggest_loss": 1000000000,
     "by_game": {
@@ -88,6 +88,13 @@
         "lost": 3,
         "wagered": 2500000000,
         "profit": -1600000000
+      },
+      "roulette": {
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "wagered": 501000000,
+        "profit": -499150000
       }
     }
   },
