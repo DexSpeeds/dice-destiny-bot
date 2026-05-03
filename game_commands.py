@@ -26,7 +26,7 @@ from games.mines import Mines
 from games.ninetynine import NinetyNine
 from games.diceduel import DiceDuel
 from games.staking import Staking
-from staking_renderer import render_staking_gif
+from staking_renderer import render_idle_frame, render_hit_frame, render_ko_frame
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -773,53 +773,91 @@ class GameCommands(commands.Cog):
         won, payout, seeds = result['won'], result['payout'], result.get('seeds', {})
         game_id = self.history.next_id()
 
+        # === REAL-TIME FIGHT ===
+        channel = interaction.channel
+
+        # Starting frame - both at 99 HP
+        idle_buf = render_idle_frame(99, 99)
+        file = discord.File(idle_buf, filename="stake.png")
+        embed = discord.Embed(
+            title=f"⚔️ Stake #{game_id} - FIGHT!",
+            description=f"{interaction.user.mention} vs **House** — {amount:,} GP",
+            color=COLOR_GOLD
+        )
+        embed.set_image(url="attachment://stake.png")
+        embed.set_footer(text="Round 1 starting...")
+        msg = await interaction.followup.send(embed=embed, file=file)
+
+        await asyncio.sleep(1.5)
+
+        # Play each round in real-time
+        player_hp = 99
+        host_hp = 99
+        fight_lines = []
+
+        for i, rnd in enumerate(result['rounds']):
+            player_hit = rnd['player_hit']
+            host_hit = rnd['host_hit']
+            player_hp = rnd['player_hp']
+            host_hp = rnd['host_hp']
+
+            p_mark = " **MAX!**" if player_hit >= 25 else ""
+            h_mark = " **MAX!**" if host_hit >= 25 else ""
+            fight_lines.append(
+                f"`{i+1}.` You: **{player_hit}**{p_mark} — Host: **{host_hit}**{h_mark}"
+            )
+
+            is_final = (player_hp <= 0 or host_hp <= 0)
+
+            if is_final:
+                # KO frame
+                img_buf = render_ko_frame(player_hp, host_hp, player_hit, host_hit)
+            else:
+                # Hit frame with splats
+                img_buf = render_hit_frame(player_hp, host_hp, player_hit, host_hit)
+
+            file = discord.File(img_buf, filename="stake.png")
+            embed = discord.Embed(
+                title=f"⚔️ Stake #{game_id} - {'FIGHT!' if not is_final else ('YOU WIN!' if won else 'HOST WINS!')}",
+                description=f"{interaction.user.mention} vs **House** — {amount:,} GP",
+                color=COLOR_GOLD if not is_final else (COLOR_WIN if won else COLOR_LOSS)
+            )
+            embed.add_field(
+                name="HP",
+                value=f"❤️ You: **{player_hp}** — Host: **{host_hp}**",
+                inline=False
+            )
+            embed.add_field(
+                name=f"Fight Log",
+                value="\n".join(fight_lines[-5:]),  # Last 5 hits
+                inline=False
+            )
+            embed.set_image(url="attachment://stake.png")
+
+            if is_final:
+                if won:
+                    embed.add_field(name="Won", value=f"{payout:,} GP", inline=True)
+                else:
+                    embed.add_field(name="Lost", value=f"{amount:,} GP", inline=True)
+                embed.set_footer(text=f"Server seed: {seeds.get('server_seed_hash', 'N/A')[:32]}...")
+
+            # Delete old message and send new one (can't edit attachments)
+            try:
+                await msg.delete()
+            except Exception:
+                pass
+            msg = await channel.send(embed=embed, file=file)
+
+            if not is_final:
+                await asyncio.sleep(1.5)
+
+        # Record stats
         if won:
             self.wallet.add_balance(interaction.user.id, payout)
 
         self.stats.record_game(interaction.user.id, 'staking', amount, won, payout)
         label = "WIN" if won else "LOSS"
         self.history.add_result('staking', f"#{game_id} {result['total_rounds']} rounds - {label}")
-
-        # Render fight GIF
-        gif_buf = render_staking_gif(result['rounds'])
-        file = discord.File(gif_buf, filename="stake_fight.gif")
-
-        embed = discord.Embed(
-            title=f"⚔️ Stake #{game_id} - {label}",
-            color=COLOR_WIN if won else COLOR_LOSS
-        )
-        embed.add_field(name="Player", value=interaction.user.mention, inline=True)
-        embed.add_field(name="Wager", value=f"{amount:,} GP", inline=True)
-        # Build fight log with hitsplat numbers
-        fight_lines = []
-        p_hp = 99
-        h_hp = 99
-        for i, r in enumerate(result['rounds']):
-            p_hit = r['player_hit']
-            h_hit = r['host_hit']
-            p_hp = r['player_hp']
-            h_hp = r['host_hp']
-            # Max hit marker
-            p_mark = " **MAX!**" if p_hit >= 25 else ""
-            h_mark = " **MAX!**" if h_hit >= 25 else ""
-            fight_lines.append(
-                f"`{i+1}.` You hit **{p_hit}**{p_mark} — Host hit **{h_hit}**{h_mark}  ❤️ `{p_hp}` vs `{h_hp}`"
-            )
-        fight_log = "\n".join(fight_lines)
-
-        embed.add_field(
-            name=f"⚔️ Fight Log ({result['total_rounds']} rounds)",
-            value=fight_log,
-            inline=False
-        )
-        if won:
-            embed.add_field(name="Won", value=f"{payout:,} GP", inline=True)
-        else:
-            embed.add_field(name="Lost", value=f"{amount:,} GP", inline=True)
-        embed.set_image(url="attachment://stake_fight.gif")
-        embed.set_footer(text=f"Server seed: {seeds.get('server_seed_hash', 'N/A')[:32]}...")
-
-        await interaction.followup.send(embed=embed, file=file, view=ResultButtons(seeds))
         await self.game_logger.log_game(interaction.user, 'staking', amount, won, payout)
 
 class DiceDuelModeView(discord.ui.View):
