@@ -1,20 +1,46 @@
 {
   "1494106269798105169": {
-    "total_wagered": 5000000,
-    "total_won": 9500000,
+    "total_wagered": 10000000,
+    "total_won": 18250000,
     "total_lost": 0,
-    "games_played": 1,
-    "games_won": 1,
+    "games_played": 2,
+    "games_won": 2,
     "games_lost": 0,
-    "biggest_win": 9500000,
+    "biggest_win": 9250000,
     "biggest_loss": 0,
     "by_game": {
-      "staking": {
+      "coinflip": {
         "played": 1,
         "won": 1,
         "lost": 0,
         "wagered": 5000000,
-        "profit": 4500000
+        "profit": 4000000
+      },
+      "roulette": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 5000000,
+        "profit": 4250000
+      }
+    }
+  },
+  "728270820060954685": {
+    "total_wagered": 500000000,
+    "total_won": 0,
+    "total_lost": 500000000,
+    "games_played": 1,
+    "games_won": 0,
+    "games_lost": 1,
+    "biggest_win": 0,
+    "biggest_loss": 500000000,
+    "by_game": {
+      "blackjack": {
+        "played": 1,
+        "won": 0,
+        "lost": 1,
+        "wagered": 500000000,
+        "profit": -500000000
       }
     }
   }
