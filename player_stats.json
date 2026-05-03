@@ -1,11 +1,11 @@
 {
   "1494106269798105169": {
-    "total_wagered": 65000000,
-    "total_won": 69250000,
-    "total_lost": 30000000,
-    "games_played": 13,
-    "games_won": 7,
-    "games_lost": 6,
+    "total_wagered": 85000000,
+    "total_won": 88250000,
+    "total_lost": 40000000,
+    "games_played": 17,
+    "games_won": 9,
+    "games_lost": 8,
     "biggest_win": 13500000,
     "biggest_loss": 5000000,
     "by_game": {
@@ -24,11 +24,11 @@
         "profit": 4250000
       },
       "staking": {
-        "played": 7,
-        "won": 3,
-        "lost": 4,
-        "wagered": 35000000,
-        "profit": -6500000
+        "played": 11,
+        "won": 5,
+        "lost": 6,
+        "wagered": 55000000,
+        "profit": -7500000
       },
       "flowerpoker": {
         "played": 2,
@@ -47,21 +47,40 @@
     }
   },
   "728270820060954685": {
-    "total_wagered": 3500000000,
-    "total_won": 5400000000,
+    "total_wagered": 5500000000,
+    "total_won": 8200000000,
     "total_lost": 500000000,
-    "games_played": 5,
-    "games_won": 4,
+    "games_played": 7,
+    "games_won": 6,
     "games_lost": 1,
     "biggest_win": 1800000000,
     "biggest_loss": 500000000,
     "by_game": {
       "blackjack": {
-        "played": 5,
-        "won": 4,
+        "played": 7,
+        "won": 6,
         "lost": 1,
-        "wagered": 3500000000,
-        "profit": 1900000000
+        "wagered": 5500000000,
+        "profit": 2700000000
+      }
+    }
+  },
+  "430895808833912843": {
+    "total_wagered": 2500000000,
+    "total_won": 900000000,
+    "total_lost": 2000000000,
+    "games_played": 4,
+    "games_won": 1,
+    "games_lost": 3,
+    "biggest_win": 900000000,
+    "biggest_loss": 1000000000,
+    "by_game": {
+      "blackjack": {
+        "played": 4,
+        "won": 1,
+        "lost": 3,
+        "wagered": 2500000000,
+        "profit": -1600000000
       }
     }
   }
