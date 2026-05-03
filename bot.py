@@ -409,7 +409,18 @@ async def on_ready():
         print(f"Registered commands ({len(all_cmds)}):")
         for cmd in all_cmds:
             print(f"  /{cmd.name}")
-        print("Commands NOT re-synced (use /forcesync if needed)")
+
+        # Only sync if SYNC_ONCE file exists (delete after first sync)
+        sync_flag = os.path.join(os.path.dirname(__file__), '.do_sync')
+        if os.path.exists(sync_flag):
+            for guild in bot.guilds:
+                bot.tree.copy_global_to(guild=guild)
+                guild_synced = await bot.tree.sync(guild=guild)
+                print(f"Synced {len(guild_synced)} commands to {guild.name}")
+            os.remove(sync_flag)
+            print("Sync complete - flag removed, won't sync again on restart")
+        else:
+            print("Commands NOT re-synced (create .do_sync file or use /forcesync)")
 
     print("=" * 60)
     print("READY! Games: /coinflip /blackjack /dice /hotcold")
