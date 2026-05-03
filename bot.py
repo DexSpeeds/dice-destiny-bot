@@ -404,22 +404,12 @@ async def on_ready():
             import traceback
             traceback.print_exc()
 
-        try:
-            # Print all registered commands
-            all_cmds = bot.tree.get_commands()
-            print(f"Registered commands ({len(all_cmds)}):")
-            for cmd in all_cmds:
-                print(f"  /{cmd.name}")
-
-            # Sync to each guild for instant availability (guild-only, no global)
-            for guild in bot.guilds:
-                bot.tree.copy_global_to(guild=guild)
-                guild_synced = await bot.tree.sync(guild=guild)
-                print(f"Synced {len(guild_synced)} commands to {guild.name}")
-        except Exception as e:
-            print(f"Sync error: {e}")
-            import traceback
-            traceback.print_exc()
+        # Print all registered commands
+        all_cmds = bot.tree.get_commands()
+        print(f"Registered commands ({len(all_cmds)}):")
+        for cmd in all_cmds:
+            print(f"  /{cmd.name}")
+        print("Commands NOT re-synced (use /forcesync if needed)")
 
     print("=" * 60)
     print("READY! Games: /coinflip /blackjack /dice /hotcold")
@@ -445,6 +435,17 @@ async def auto_backup():
         await push_to_github()
     except Exception as e:
         print(f"Auto backup error: {e}")
+
+
+@bot.tree.command(name="forcesync", description="Force re-sync all commands (admin only)")
+async def forcesync_cmd(interaction: discord.Interaction):
+    if not await permissions.check_admin_permission(interaction):
+        return
+    await interaction.response.defer(ephemeral=True)
+    for guild in bot.guilds:
+        bot.tree.copy_global_to(guild=guild)
+        synced = await bot.tree.sync(guild=guild)
+        await interaction.followup.send(f"Synced {len(synced)} commands to {guild.name}", ephemeral=True)
 
 
 @bot.tree.command(name="backup", description="Force a backup now")
