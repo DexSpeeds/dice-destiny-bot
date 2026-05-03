@@ -1,11 +1,11 @@
 {
   "1494106269798105169": {
-    "total_wagered": 125000000,
+    "total_wagered": 130000000,
     "total_won": 154750000,
-    "total_lost": 45000000,
-    "games_played": 25,
+    "total_lost": 50000000,
+    "games_played": 26,
     "games_won": 16,
-    "games_lost": 9,
+    "games_lost": 10,
     "biggest_win": 13500000,
     "biggest_loss": 5000000,
     "by_game": {
@@ -24,11 +24,11 @@
         "profit": 4250000
       },
       "staking": {
-        "played": 19,
+        "played": 20,
         "won": 12,
-        "lost": 7,
-        "wagered": 95000000,
-        "profit": 19000000
+        "lost": 8,
+        "wagered": 100000000,
+        "profit": 14000000
       },
       "flowerpoker": {
         "played": 2,
