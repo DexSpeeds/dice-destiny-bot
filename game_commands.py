@@ -25,6 +25,8 @@ from games.roulette import Roulette
 from games.mines import Mines
 from games.ninetynine import NinetyNine
 from games.diceduel import DiceDuel
+from games.staking import Staking
+from staking_renderer import render_staking_gif
 
 # Colors
 COLOR_WIN = 0x2ECC71
@@ -138,6 +140,7 @@ class GameCommands(commands.Cog):
             'mines': None,  # Created per game
             'ninetynine': NinetyNine(),
             'diceduel': DiceDuel(payout=1.9),
+            'staking': Staking(payout=1.9),
         }
 
     def _check_channel(self, interaction, game_name):
@@ -747,6 +750,77 @@ class GameCommands(commands.Cog):
 
         view = DiceDuelModeView(interaction.user, amount, self)
         await interaction.response.send_message(embed=embed, view=view)
+
+    # ==================== STAKING ====================
+    @app_commands.command(name="stake", description="Duel Arena whip fight - stake your GP!")
+    @app_commands.describe(bet="Bet amount (e.g. 100k, 1m)")
+    async def stake(self, interaction: discord.Interaction, bet: str):
+        ch_err = self._check_channel(interaction, 'staking')
+        if ch_err:
+            await interaction.response.send_message(ch_err, ephemeral=True)
+            return
+
+        await interaction.response.defer()
+
+        amount, err = self._check_bet(interaction.user.id, 'staking', bet, interaction=None)
+        if err:
+            await interaction.followup.send(err, ephemeral=True)
+            return
+
+        self._deduct(interaction.user.id, 'staking', amount)
+
+        result = self.games['staking'].play(amount)
+        won, payout, seeds = result['won'], result['payout'], result.get('seeds', {})
+        game_id = self.history.next_id()
+
+        if won:
+            self.wallet.add_balance(interaction.user.id, payout)
+
+        self.stats.record_game(interaction.user.id, 'staking', amount, won, payout)
+        label = "WIN" if won else "LOSS"
+        self.history.add_result('staking', f"#{game_id} {result['total_rounds']} rounds - {label}")
+
+        # Render fight GIF
+        gif_buf = render_staking_gif(result['rounds'])
+        file = discord.File(gif_buf, filename="stake_fight.gif")
+
+        embed = discord.Embed(
+            title=f"⚔️ Stake #{game_id} - {label}",
+            color=COLOR_WIN if won else COLOR_LOSS
+        )
+        embed.add_field(name="Player", value=interaction.user.mention, inline=True)
+        embed.add_field(name="Wager", value=f"{amount:,} GP", inline=True)
+        # Build fight log with hitsplat numbers
+        fight_lines = []
+        p_hp = 99
+        h_hp = 99
+        for i, r in enumerate(result['rounds']):
+            p_hit = r['player_hit']
+            h_hit = r['host_hit']
+            p_hp = r['player_hp']
+            h_hp = r['host_hp']
+            # Max hit marker
+            p_mark = " **MAX!**" if p_hit >= 25 else ""
+            h_mark = " **MAX!**" if h_hit >= 25 else ""
+            fight_lines.append(
+                f"`{i+1}.` You hit **{p_hit}**{p_mark} — Host hit **{h_hit}**{h_mark}  ❤️ `{p_hp}` vs `{h_hp}`"
+            )
+        fight_log = "\n".join(fight_lines)
+
+        embed.add_field(
+            name=f"⚔️ Fight Log ({result['total_rounds']} rounds)",
+            value=fight_log,
+            inline=False
+        )
+        if won:
+            embed.add_field(name="Won", value=f"{payout:,} GP", inline=True)
+        else:
+            embed.add_field(name="Lost", value=f"{amount:,} GP", inline=True)
+        embed.set_image(url="attachment://stake_fight.gif")
+        embed.set_footer(text=f"Server seed: {seeds.get('server_seed_hash', 'N/A')[:32]}...")
+
+        await interaction.followup.send(embed=embed, file=file, view=ResultButtons(seeds))
+        await self.game_logger.log_game(interaction.user, 'staking', amount, won, payout)
 
 class DiceDuelModeView(discord.ui.View):
     """Choose vs House or Open Duel"""

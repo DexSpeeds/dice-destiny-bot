@@ -1,0 +1,26 @@
+{
+  "left_hp_bar": [
+    164,
+    10
+  ],
+  "right_hp_bar": [
+    311,
+    10
+  ],
+  "left_hitsplat": [
+    160,
+    92
+  ],
+  "right_hitsplat": [
+    314,
+    86
+  ],
+  "left_label": [
+    122,
+    236
+  ],
+  "right_label": [
+    346,
+    234
+  ]
+}
