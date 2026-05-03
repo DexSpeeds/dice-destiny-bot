@@ -306,5 +306,24 @@
         "profit": -50000000
       }
     }
+  },
+  "226414589783310336": {
+    "total_wagered": 100000000,
+    "total_won": 90000000,
+    "total_lost": 50000000,
+    "games_played": 2,
+    "games_won": 1,
+    "games_lost": 1,
+    "biggest_win": 90000000,
+    "biggest_loss": 50000000,
+    "by_game": {
+      "coinflip": {
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "wagered": 100000000,
+        "profit": -10000000
+      }
+    }
   }
 }
