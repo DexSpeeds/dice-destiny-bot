@@ -31,9 +31,9 @@
   },
   "1356531844027387995": {
     "total_deposited": 10000000000,
-    "total_wagered": 8700000000,
+    "total_wagered": 18700000000,
     "wager_requirement": 10000000000,
-    "can_withdraw": false
+    "can_withdraw": true
   },
   "191612120343904266": {
     "total_deposited": 5000000000,

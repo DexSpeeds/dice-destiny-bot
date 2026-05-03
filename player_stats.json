@@ -198,12 +198,12 @@
     }
   },
   "1356531844027387995": {
-    "total_wagered": 10200000000,
-    "total_won": 8914000000,
-    "total_lost": 5100000000,
-    "games_played": 18,
-    "games_won": 10,
-    "games_lost": 8,
+    "total_wagered": 20200000000,
+    "total_won": 12564000000,
+    "total_lost": 13600000000,
+    "games_played": 38,
+    "games_won": 13,
+    "games_lost": 25,
     "biggest_win": 1800000000,
     "biggest_loss": 1000000000,
     "by_game": {
@@ -234,6 +234,34 @@
         "lost": 7,
         "wagered": 9500000000,
         "profit": -1800000000
+      },
+      "caskets": {
+        "played": 8,
+        "won": 2,
+        "lost": 6,
+        "wagered": 4000000000,
+        "profit": -1300000000
+      },
+      "roulette": {
+        "played": 4,
+        "won": 0,
+        "lost": 4,
+        "wagered": 2000000000,
+        "profit": -2000000000
+      },
+      "mines": {
+        "played": 6,
+        "won": 0,
+        "lost": 6,
+        "wagered": 3000000000,
+        "profit": -3000000000
+      },
+      "staking": {
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "wagered": 1000000000,
+        "profit": -50000000
       }
     }
   }
