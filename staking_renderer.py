@@ -159,8 +159,8 @@ def _base_frame(base, player_hp, host_hp):
     """Create a frame with HP bars and labels (no hitsplats)"""
     frame = base.copy().convert('RGBA')
     draw = ImageDraw.Draw(frame)
-    _draw_label(draw, LEFT_CHAR_X, LABEL_Y, "YOU", _fonts['label'], (0, 255, 0))
-    _draw_label(draw, RIGHT_CHAR_X, LABEL_Y, "HOST", _fonts['label'], (255, 60, 60))
+    _draw_label(draw, LEFT_CHAR_X, LABEL_Y, "YOU", (0, 255, 0))
+    _draw_label(draw, RIGHT_CHAR_X, LABEL_Y, "HOST", (255, 60, 60))
     _draw_hp_bar(draw, LEFT_CHAR_X, HP_BAR_Y, player_hp)
     _draw_hp_bar(draw, RIGHT_CHAR_X, HP_BAR_Y, host_hp)
     _draw_hp_text(draw, LEFT_CHAR_X, HP_BAR_Y, player_hp)
