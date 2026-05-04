@@ -19,12 +19,12 @@
     }
   },
   "1273314061580238911": {
-    "total_wagered": 6000000000,
+    "total_wagered": 10000000000,
     "total_won": 3650000000,
-    "total_lost": 4000000000,
-    "games_played": 12,
+    "total_lost": 8000000000,
+    "games_played": 20,
     "games_won": 4,
-    "games_lost": 8,
+    "games_lost": 16,
     "biggest_win": 950000000,
     "biggest_loss": 500000000,
     "by_game": {
@@ -48,18 +48,25 @@
         "lost": 5,
         "wagered": 2500000000,
         "profit": -2500000000
+      },
+      "mines": {
+        "played": 8,
+        "won": 0,
+        "lost": 8,
+        "wagered": 4000000000,
+        "profit": -4000000000
       }
     }
   },
   "271843522183692288": {
-    "total_wagered": 18000000,
-    "total_won": 18475000,
-    "total_lost": 9250000,
-    "games_played": 18,
-    "games_won": 8,
-    "games_lost": 10,
-    "biggest_win": 4000000,
-    "biggest_loss": 2000000,
+    "total_wagered": 56975000,
+    "total_won": 74287500,
+    "total_lost": 20750000,
+    "games_played": 29,
+    "games_won": 14,
+    "games_lost": 15,
+    "biggest_win": 17052500,
+    "biggest_loss": 5000000,
     "by_game": {
       "coinflip": {
         "played": 1,
@@ -69,11 +76,11 @@
         "profit": 200000
       },
       "blackjack": {
-        "played": 1,
-        "won": 1,
-        "lost": 0,
-        "wagered": 250000,
-        "profit": 200000
+        "played": 4,
+        "won": 3,
+        "lost": 1,
+        "wagered": 12250000,
+        "profit": 5300000
       },
       "dice": {
         "played": 1,
@@ -97,18 +104,18 @@
         "profit": -1380000
       },
       "flowerpoker": {
-        "played": 4,
-        "won": 2,
-        "lost": 2,
-        "wagered": 8000000,
-        "profit": 0
+        "played": 6,
+        "won": 3,
+        "lost": 3,
+        "wagered": 12000000,
+        "profit": 1600000
       },
       "roulette": {
-        "played": 2,
+        "played": 3,
         "won": 0,
-        "lost": 2,
-        "wagered": 2000000,
-        "profit": -2000000
+        "lost": 3,
+        "wagered": 3000000,
+        "profit": -3000000
       },
       "diceduel": {
         "played": 1,
@@ -118,11 +125,18 @@
         "profit": 1800000
       },
       "mines": {
-        "played": 1,
-        "won": 0,
+        "played": 3,
+        "won": 1,
+        "lost": 2,
+        "wagered": 3500000,
+        "profit": 3060000
+      },
+      "staking": {
+        "played": 3,
+        "won": 2,
         "lost": 1,
-        "wagered": 500000,
-        "profit": -500000
+        "wagered": 18975000,
+        "profit": 7577500
       }
     }
   }
