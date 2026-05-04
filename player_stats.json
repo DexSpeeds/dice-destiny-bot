@@ -89,12 +89,12 @@
     }
   },
   "1273314061580238911": {
-    "total_wagered": 27500000000,
-    "total_won": 12780000000,
-    "total_lost": 24500000000,
-    "games_played": 55,
-    "games_won": 6,
-    "games_lost": 49,
+    "total_wagered": 34520000000,
+    "total_won": 19935000000,
+    "total_lost": 30010000000,
+    "games_played": 71,
+    "games_won": 10,
+    "games_lost": 61,
     "biggest_win": 8580000000,
     "biggest_loss": 500000000,
     "by_game": {
@@ -113,11 +113,11 @@
         "profit": 450000000
       },
       "ninetynine": {
-        "played": 5,
+        "played": 6,
         "won": 0,
-        "lost": 5,
-        "wagered": 2500000000,
-        "profit": -2500000000
+        "lost": 6,
+        "wagered": 3000000000,
+        "profit": -3000000000
       },
       "mines": {
         "played": 35,
@@ -127,11 +127,18 @@
         "profit": -8370000000
       },
       "caskets": {
-        "played": 8,
-        "won": 0,
-        "lost": 8,
-        "wagered": 4000000000,
-        "profit": -4000000000
+        "played": 20,
+        "won": 2,
+        "lost": 18,
+        "wagered": 10000000000,
+        "profit": -3815000000
+      },
+      "diceduel": {
+        "played": 3,
+        "won": 2,
+        "lost": 1,
+        "wagered": 520000000,
+        "profit": 450000000
       }
     }
   },
@@ -267,12 +274,12 @@
     }
   },
   "1081106810653638766": {
-    "total_wagered": 38234567,
-    "total_won": 41450000,
-    "total_lost": 26234567,
-    "games_played": 19,
-    "games_won": 6,
-    "games_lost": 13,
+    "total_wagered": 93234567,
+    "total_won": 70450000,
+    "total_lost": 66234567,
+    "games_played": 25,
+    "games_won": 8,
+    "games_lost": 17,
     "biggest_win": 24250000,
     "biggest_loss": 10000000,
     "by_game": {
@@ -303,6 +310,27 @@
         "lost": 2,
         "wagered": 11234567,
         "profit": -11234567
+      },
+      "caskets": {
+        "played": 3,
+        "won": 0,
+        "lost": 3,
+        "wagered": 30000000,
+        "profit": -30000000
+      },
+      "coinflip": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 5000000,
+        "profit": 4000000
+      },
+      "diceduel": {
+        "played": 2,
+        "won": 1,
+        "lost": 1,
+        "wagered": 20000000,
+        "profit": 0
       }
     }
   },
