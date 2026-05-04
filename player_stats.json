@@ -89,12 +89,12 @@
     }
   },
   "1273314061580238911": {
-    "total_wagered": 21500000000,
-    "total_won": 12230000000,
-    "total_lost": 19000000000,
-    "games_played": 43,
-    "games_won": 5,
-    "games_lost": 38,
+    "total_wagered": 27500000000,
+    "total_won": 12780000000,
+    "total_lost": 24500000000,
+    "games_played": 55,
+    "games_won": 6,
+    "games_lost": 49,
     "biggest_win": 8580000000,
     "biggest_loss": 500000000,
     "by_game": {
@@ -120,11 +120,18 @@
         "profit": -2500000000
       },
       "mines": {
-        "played": 31,
-        "won": 1,
-        "lost": 30,
-        "wagered": 15500000000,
-        "profit": -6920000000
+        "played": 35,
+        "won": 2,
+        "lost": 33,
+        "wagered": 17500000000,
+        "profit": -8370000000
+      },
+      "caskets": {
+        "played": 8,
+        "won": 0,
+        "lost": 8,
+        "wagered": 4000000000,
+        "profit": -4000000000
       }
     }
   },
@@ -260,12 +267,12 @@
     }
   },
   "1081106810653638766": {
-    "total_wagered": 32234567,
+    "total_wagered": 38234567,
     "total_won": 41450000,
-    "total_lost": 20234567,
-    "games_played": 13,
+    "total_lost": 26234567,
+    "games_played": 19,
     "games_won": 6,
-    "games_lost": 7,
+    "games_lost": 13,
     "biggest_win": 24250000,
     "biggest_loss": 10000000,
     "by_game": {
@@ -284,11 +291,11 @@
         "profit": -1200000
       },
       "mines": {
-        "played": 2,
+        "played": 8,
         "won": 1,
-        "lost": 1,
-        "wagered": 2000000,
-        "profit": 22250000
+        "lost": 7,
+        "wagered": 8000000,
+        "profit": 16250000
       },
       "staking": {
         "played": 2,
@@ -298,5 +305,16 @@
         "profit": -11234567
       }
     }
+  },
+  "1060992380137898075": {
+    "total_wagered": 0,
+    "total_won": 0,
+    "total_lost": 0,
+    "games_played": 0,
+    "games_won": 0,
+    "games_lost": 0,
+    "biggest_win": 0,
+    "biggest_loss": 0,
+    "by_game": {}
   }
 }
