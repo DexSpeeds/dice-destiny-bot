@@ -260,12 +260,12 @@
     }
   },
   "1081106810653638766": {
-    "total_wagered": 31000000,
+    "total_wagered": 32234567,
     "total_won": 41450000,
-    "total_lost": 19000000,
-    "games_played": 12,
+    "total_lost": 20234567,
+    "games_played": 13,
     "games_won": 6,
-    "games_lost": 6,
+    "games_lost": 7,
     "biggest_win": 24250000,
     "biggest_loss": 10000000,
     "by_game": {
@@ -291,11 +291,11 @@
         "profit": 22250000
       },
       "staking": {
-        "played": 1,
+        "played": 2,
         "won": 0,
-        "lost": 1,
-        "wagered": 10000000,
-        "profit": -10000000
+        "lost": 2,
+        "wagered": 11234567,
+        "profit": -11234567
       }
     }
   }
