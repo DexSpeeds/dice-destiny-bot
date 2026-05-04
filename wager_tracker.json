@@ -1,1 +1,8 @@
-{}  
+{
+  "1494106269798105169": {
+    "total_deposited": 69000000000,
+    "total_wagered": 100000,
+    "wager_requirement": 69000000000,
+    "can_withdraw": false
+  }
+}

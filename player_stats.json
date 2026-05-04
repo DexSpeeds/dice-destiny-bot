@@ -1,1 +1,21 @@
-{}  
+{
+  "1494106269798105169": {
+    "total_wagered": 100000,
+    "total_won": 190000,
+    "total_lost": 0,
+    "games_played": 1,
+    "games_won": 1,
+    "games_lost": 0,
+    "biggest_win": 190000,
+    "biggest_loss": 0,
+    "by_game": {
+      "staking": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 100000,
+        "profit": 90000
+      }
+    }
+  }
+}
