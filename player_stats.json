@@ -19,12 +19,12 @@
     }
   },
   "1273314061580238911": {
-    "total_wagered": 3500000000,
+    "total_wagered": 6000000000,
     "total_won": 3650000000,
-    "total_lost": 1500000000,
-    "games_played": 7,
+    "total_lost": 4000000000,
+    "games_played": 12,
     "games_won": 4,
-    "games_lost": 3,
+    "games_lost": 8,
     "biggest_win": 950000000,
     "biggest_loss": 500000000,
     "by_game": {
@@ -41,6 +41,88 @@
         "lost": 0,
         "wagered": 500000000,
         "profit": 450000000
+      },
+      "ninetynine": {
+        "played": 5,
+        "won": 0,
+        "lost": 5,
+        "wagered": 2500000000,
+        "profit": -2500000000
+      }
+    }
+  },
+  "271843522183692288": {
+    "total_wagered": 18000000,
+    "total_won": 18475000,
+    "total_lost": 9250000,
+    "games_played": 18,
+    "games_won": 8,
+    "games_lost": 10,
+    "biggest_win": 4000000,
+    "biggest_loss": 2000000,
+    "by_game": {
+      "coinflip": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 250000,
+        "profit": 200000
+      },
+      "blackjack": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 250000,
+        "profit": 200000
+      },
+      "dice": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 250000,
+        "profit": 1155000
+      },
+      "hotcold": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 1000000,
+        "profit": 1000000
+      },
+      "caskets": {
+        "played": 6,
+        "won": 1,
+        "lost": 5,
+        "wagered": 3750000,
+        "profit": -1380000
+      },
+      "flowerpoker": {
+        "played": 4,
+        "won": 2,
+        "lost": 2,
+        "wagered": 8000000,
+        "profit": 0
+      },
+      "roulette": {
+        "played": 2,
+        "won": 0,
+        "lost": 2,
+        "wagered": 2000000,
+        "profit": -2000000
+      },
+      "diceduel": {
+        "played": 1,
+        "won": 1,
+        "lost": 0,
+        "wagered": 2000000,
+        "profit": 1800000
+      },
+      "mines": {
+        "played": 1,
+        "won": 0,
+        "lost": 1,
+        "wagered": 500000,
+        "profit": -500000
       }
     }
   }
