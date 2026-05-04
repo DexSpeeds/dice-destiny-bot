@@ -1,11 +1,11 @@
 {
   "1494106269798105169": {
-    "total_wagered": 2000000,
-    "total_won": 3060000,
-    "total_lost": 300000,
-    "games_played": 11,
-    "games_won": 8,
-    "games_lost": 3,
+    "total_wagered": 2200000,
+    "total_won": 3310000,
+    "total_lost": 400000,
+    "games_played": 13,
+    "games_won": 9,
+    "games_lost": 4,
     "biggest_win": 1850000,
     "biggest_loss": 100000,
     "by_game": {
@@ -38,11 +38,11 @@
         "profit": 850000
       },
       "blackjack": {
-        "played": 2,
-        "won": 2,
-        "lost": 0,
-        "wagered": 200000,
-        "profit": 230000
+        "played": 4,
+        "won": 3,
+        "lost": 1,
+        "wagered": 400000,
+        "profit": 280000
       }
     }
   },
